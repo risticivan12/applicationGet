@@ -1,0 +1,65 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Predmeti";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <p style="margin-top:50px;"></p>
+                    <font color="black">Naziv predmeta:</font>
+                    <p style="margin-top:2px;"></p>
+                    <input required type="text" oninvalid="this.setCustomValidity('Niste uneli naziv predmeta')"
+                           oninput="this.setCustomValidity('')"
+                           class="form-control" id="subjectTitleInput" placeholder="Unesite naziv predmeta">
+                    <input type="hidden" id="subjectId" value="">
+                    <div id="errorSubject"></div>
+                </div>
+               
+            </div>
+            <div class="col-lg-6">
+                <button type="submit" asp-action="Save" asp-controller="Subject" class="btn btn-primary" id="addSubject">Sačuvaj</button>
+                <button type="button" style="visibility: hidden; display: none" class="btn btn-success" id="updateSubject">Izmeni</button>
+                <button type="button" asp-action="Delete" asp-controller="Subject" style="visibility: hidden; display: none" class="btn btn-danger" id="deleteSubject">Obriši</button>
+                <button type="button" asp-action="Update" asp-controller="Subject" style="visibility: hidden; display: none" class="btn btn-primary" id="saveUpdatedSubject">Sačuvaj izmene</button>
+                <button type="button" style="visibility: hidden; display: none" class="btn btn-primary" id="prepareForAdd">Dodaj</button>
+            </div>
+            <div>
+                <p style="margin-top:20px;"></p>
+                <font style="margin-left:15px;" color="black">Predmeti:</font>
+                <p style="margin-top:5px;"></p>
+                <ol id="listOfSubjects">
+                    @foreach (SubjectView subjectView in Model.List)
+                    {
+                        <li id="@subjectView.SubjectId" class="liElementSubject">
+                            <button name="@subjectView.Title" type="button" style="border: none;  background-color: inherit; color:blue; display: inline-block; "
+                                    class="btn btn-primary subjectName" id="@subjectView.SubjectId">
+                                @subjectView.Title
+                            </button>
+                        </li>
+                    }
+                </ol>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <p style="margin-top:50px;"></p>
+            <font color="black">Studenti:</font>
+            <p style="margin-top:10px;"></p>
+            <table id="table_studentsBySubjects" class="display">
+                <thead>
+                    <tr>
+                        <th>Broj indeksa</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Grad</th>
+                        <th>Datum polaganja</th>
+                        <th>Ocena</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>

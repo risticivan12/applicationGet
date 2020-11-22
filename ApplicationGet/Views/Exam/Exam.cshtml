@@ -1,0 +1,95 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"] = "Ispiti";
+}
+
+ <form id="examForm">
+ <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <p style="margin-top:50px;"></p>
+                            <font color="black">Broj indeksa:</font>
+                            <input autocomplete="off" style="margin-top:10px;" required type="text" oninvalid="this.setCustomValidity('Niste uneli broj indeksa')"
+                                   oninput="this.setCustomValidity('')"
+                                   class="form-control" id="indexNumber" placeholder="Unesite broj indeksa">
+                            <input type="hidden" id="examId" value="">
+                            <div id="suggestedStudents"></div>
+                        </div>
+                    </div>
+
+                 
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <p style="margin-top:20px;"></p>
+                            <font color="black">Predmet:</font>
+                            <select style="margin-top:10px; font-size:medium" class="custom-select form-control" id="subjectOption">
+                                <option value="" disabled selected>Izaberite predmet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <p style="margin-top:20px;"></p>
+                            <font color="black">Ocena:</font>
+                            <input  id="examMark" style="margin-top:10px;" required type="number" min="6" max="10" oninvalid="this.setCustomValidity('Niste uneli ocenu')"
+                                   oninput="this.setCustomValidity('')"
+                                   class="form-control" placeholder="Unesite ocenu">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <p style="margin-top:20px;"></p>
+                            <font color="black">Datum polaganja:</font>
+                            <input type="date" id="examDate" required oninvalid="this.setCustomValidity('Niste uneli datum')"
+                                   class="form-control" oninput="this.setCustomValidity('')">
+                        </div>
+                        <div id="errorExam"></div>
+                    </div>
+                    <div class="col-lg-12">
+                        <p style="margin-top:20px;"></p>
+                        <button type="button" style="visibility: hidden; display: none" class="btn btn-primary" id="addExam">Sačuvaj</button>
+                        <button type="button" style="visibility: hidden; display: none" class="btn btn-danger" id="cancelExam">Poništi</button>
+                        <button type="button" asp-action="UpdateExam" asp-controller="Exam" style="visibility: hidden; display: none" class="btn btn-primary" id="updateExam">Sačuvaj izmene</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <p style="margin-top:50px;"></p>
+                    <font color="black">Ispiti:</font>
+                    <p style="margin-top:10px;"></p>
+                    <table id="table_exams" class="display">
+                        <thead>
+                            <tr>
+                                <th>Id ispita</th>
+                                <th>Broj indeksa</th>
+                                <th>Predmet</th>
+                                <th>Id predmeta</th>
+                                <th>Ocena</th>
+                                <th>Datum polaganja</th>
+                                <th>Izmeni</th>
+                                <th>Izbriši</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ExamView ev in Model.List)
+                            {
+                            <tr>
+                                <td>@ev.ExamId</td>
+                                <td>@ev.IndexNumber</td>
+                                <td>@ev.Subject.Title</td>
+                                <td>@ev.Subject.SubjectId</td>
+                                <td>@ev.Mark</td>
+                                <td>@ev.ExamDate</td>
+                                <td> <button type="button" class="btn btn-success buttonTableExamUpdate" >Izmeni</button></td>
+                                <td> <button type="button" asp-action="DeleteExam" asp-controller="Exam" class="btn btn-danger buttonTableExamDelete">Obriši</button></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+    </form>
+
